@@ -29,6 +29,7 @@ public class Portal implements ConfigurationSerializable
     private Vector maxCorner;
     private boolean permanent;
     private boolean deathTriggered;
+    private boolean keepInventory;
     private boolean loginTriggered;
     private int cooldown;
     private String permission;
@@ -55,6 +56,7 @@ public class Portal implements ConfigurationSerializable
         this.cooldown = 0;
         this.permanent = true;
         this.deathTriggered = false;
+        this.keepInventory = false;
         this.permission = null;
         this.condition = null;
         this.minYaw = 0;
@@ -100,6 +102,9 @@ public class Portal implements ConfigurationSerializable
         if(config.get("deathTriggered") == null) deathTriggered = false;
         else deathTriggered = (boolean) config.get("deathTriggered");
 
+        if(config.get("keepInventory") == null) keepInventory = false;
+        else keepInventory = (boolean) config.get("keepInventory");
+
         if(config.get("loginTriggered") == null) loginTriggered = false;
         else loginTriggered = (boolean) config.get("loginTriggered");
 
@@ -123,6 +128,7 @@ public class Portal implements ConfigurationSerializable
         ret.put("actions", actions);
         ret.put("cooldown", cooldown);
         ret.put("deathTriggered", deathTriggered);
+        ret.put("keepInventory", keepInventory);
         ret.put("loginTriggered", loginTriggered);
         ret.put("permission", permission == null ? "" : permission);
         ret.put("condition", condition == null ? "" : condition);
@@ -373,6 +379,7 @@ public class Portal implements ConfigurationSerializable
         ret.add(parameter);
         ret.add("&bDeath Triggered: " + (deathTriggered ? "&aEnabled" : "&cDisabled"));
         ret.add("&bLogin Triggered: " + (loginTriggered ? "&aEnabled" : "&cDisabled"));
+        ret.add("&bKeep Inventory: " + (keepInventory ? "&aEnabled" : "&cDisabled"));
         parameter = "&bCooldown Time (seconds): ";
         if((cooldown / 1000) <= 0) { parameter += "&cNo cooldown"; }
         else { parameter += ("&a" + (cooldown / 1000)); }
@@ -469,6 +476,14 @@ public class Portal implements ConfigurationSerializable
 
     public void setDeathTriggered(boolean deathTriggered) {
         this.deathTriggered = deathTriggered;
+    }
+
+    public boolean isKeepInventory() {
+        return keepInventory;
+    }
+
+    public void setKeepInventory(boolean keepInventory) {
+        this.keepInventory = keepInventory;
     }
 
     public boolean isLoginTriggered() {

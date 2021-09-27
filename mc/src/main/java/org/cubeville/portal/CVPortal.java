@@ -1,5 +1,7 @@
 package org.cubeville.portal;
 
+import org.betonquest.betonquest.BetonQuest;
+import org.betonquest.betonquest.id.ConditionID;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -7,8 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pl.betoncraft.betonquest.BetonQuest;
-import pl.betoncraft.betonquest.ConditionID;
 
 import org.cubeville.commons.commands.CommandParser;
 
@@ -96,6 +96,7 @@ public class CVPortal extends JavaPlugin {
         commandParser.addCommand(new PortalSetCrossServerTeleport());
         commandParser.addCommand(new PortalSetDeathTriggered());
         commandParser.addCommand(new PortalSetLoginTriggered());
+        commandParser.addCommand(new PortalSetKeepInventory());
         commandParser.addCommand(new PortalSetMessage());
         commandParser.addCommand(new PortalSetParticle());
         commandParser.addCommand(new PortalSetPermanent());

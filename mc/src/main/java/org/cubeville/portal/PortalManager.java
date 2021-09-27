@@ -167,9 +167,22 @@ public class PortalManager implements Listener, DynamicallyEnumeratedObjectSourc
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         for(Portal portal: portals) {
-            if(portal.isDeathTriggered() && portal.isPlayerInPortal(player)) {
+            if (!portal.isPlayerInPortal(player)) {
+                continue;
+            }
+
+            if(portal.isDeathTriggered()) {
                 System.out.println("Portal is a death triggered portal, saving player status");
                 respawnPortals.put(player.getUniqueId(), portal);
+                return;
+            }
+            if(portal.isKeepInventory()) {
+                System.out.println("Portal is keeping player's inventory");
+                // keep the player's inventory
+                event.setKeepInventory(true);
+                event.setKeepLevel(true);
+                event.getDrops().clear();
+                event.setDroppedExp(0);
                 return;
             }
         }
