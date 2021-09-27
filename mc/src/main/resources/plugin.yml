@@ -1,0 +1,26 @@
+name: CVPortal
+main: org.cubeville.portal.CVPortal
+author: FrediW
+version: 0.1
+api-version: 1.16
+
+depend: [CVTools]
+softdepend: [BetonQuest,CVIPC]
+
+commands:
+  cvportal:
+    description: Portal administration command
+    permission: cvportal.admin
+  tppos:
+    description: Teleport to coords
+    permission: cvportal.tppos
+  ptp:
+    description: Instantly activate a portal
+  setwarp:
+    description: Set warp location
+    permission: cvportal.setwarp
+
+permissions:
+  cvportal.admin:
+    description: All about portals
+    default: op
