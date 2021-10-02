@@ -37,6 +37,7 @@ public class Portal implements ConfigurationSerializable
     private int maxYaw;
     private String condition;
     private boolean moveEventTriggered;
+    private boolean jumpEventTriggered;
     private Particle particle;
     private int particleDelay;
 
@@ -63,6 +64,7 @@ public class Portal implements ConfigurationSerializable
         this.maxYaw = 0;
         this.loginTriggered = false;
         this.moveEventTriggered = false;
+	this.jumpEventTriggered = false;
         this.particle = null;
         this.particleDelay = 0;
         actions = new ArrayList<>();
@@ -111,6 +113,9 @@ public class Portal implements ConfigurationSerializable
         if(config.get("moveEventTriggered") == null) moveEventTriggered = false;
         else moveEventTriggered = (boolean) config.get("moveEventTriggered");
 
+        if(config.get("jumpEventTriggered") == null) jumpEventTriggered = false;
+        else jumpEventTriggered = (boolean) config.get("jumpEventTriggered");
+
         if(config.get("particle") == null) particle = null;
         else particle = Particle.valueOf((String) config.get("particle"));
 
@@ -135,6 +140,7 @@ public class Portal implements ConfigurationSerializable
         ret.put("minYaw", minYaw);
         ret.put("maxYaw", maxYaw);
         ret.put("moveEventTriggered", moveEventTriggered);
+        ret.put("jumpEventTriggered", jumpEventTriggered);
         if(particle != null) {
             ret.put("particle", particle.toString());
             ret.put("particleDelay", particleDelay);
@@ -143,7 +149,7 @@ public class Portal implements ConfigurationSerializable
     }
 
     public void cyclicTrigger(Collection<Player> players) {
-        if(permanent == true && moveEventTriggered == false) trigger(players);
+        if(permanent == true && moveEventTriggered == false && jumpEventTriggered == false) trigger(players);
         if(minCorner != null && maxCorner != null && particle != null) {
         }
     }
@@ -165,6 +171,11 @@ public class Portal implements ConfigurationSerializable
     public void moveEventTrigger(Player player) {
         if(permanent == false || moveEventTriggered == false) return;
         trigger(player);
+    }
+
+    public void jumpEventTrigger(Player player) {
+	if(permanent == false || jumpEventTriggered == false) return;
+	trigger(player);
     }
     
     public void trigger(Collection<Player> players) {
@@ -381,6 +392,9 @@ public class Portal implements ConfigurationSerializable
         ret.add("&bLogin Triggered: " + (loginTriggered ? "&aEnabled" : "&cDisabled"));
         ret.add("&bKeep Inventory: " + (keepInventory ? "&aEnabled" : "&cDisabled"));
         parameter = "&bCooldown Time (seconds): ";
+	if(particle != null) {
+	    ret.add("&bParticles: " + particle + " with delay " + particleDelay);
+	}
         if((cooldown / 1000) <= 0) { parameter += "&cNo cooldown"; }
         else { parameter += ("&a" + (cooldown / 1000)); }
         ret.add(parameter);
@@ -492,10 +506,20 @@ public class Portal implements ConfigurationSerializable
 
     public void setMoveEventTriggered(boolean moveEventTriggered) {
         this.moveEventTriggered = moveEventTriggered;
+	if(moveEventTriggered) jumpEventTriggered = false;
     }
 
     public boolean isMoveEventTriggered() {
         return moveEventTriggered;
+    }
+    
+    public void setJumpEventTriggered(boolean jumpEventTriggered) {
+	this.jumpEventTriggered = jumpEventTriggered;
+	if(jumpEventTriggered) moveEventTriggered = false;
+    }
+
+    public boolean isJumpEventTriggered() {
+	return jumpEventTriggered;
     }
     
     public void setLoginTriggered(boolean loginTriggered) {

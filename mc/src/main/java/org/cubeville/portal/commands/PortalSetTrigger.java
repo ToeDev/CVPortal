@@ -1,5 +1,6 @@
 package org.cubeville.portal.commands;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +21,12 @@ public class PortalSetTrigger extends Command
         super("set trigger");
         setPermission("cvportal.settrigger");
         addBaseParameter(new CommandParameterPortal());
-        addBaseParameter(new CommandParameterEnumeratedString("moveevent", "cyclic"));
+
+	Set<String> e = new HashSet<>();
+	e.add("moveevent");
+	e.add("cyclic");
+	e.add("jumpevent");
+        addBaseParameter(new CommandParameterEnumeratedString(e));
     }
 
     public CommandResponse execute(Player player, Set<String> flags, Map<String, Object> parameters, List<Object> baseParameters)
@@ -28,7 +34,17 @@ public class PortalSetTrigger extends Command
 
         Portal portal = (Portal) baseParameters.get(0);
         String trigger = (String) baseParameters.get(1);
-        portal.setMoveEventTriggered(trigger.equals("moveevent"));
+	if(trigger.equals("moveevent")) {
+	    portal.setMoveEventTriggered(true);
+	}
+	else if(trigger.equals("jumpevent")) {
+	    portal.setJumpEventTriggered(true);
+	}
+	else {
+	    portal.setMoveEventTriggered(false);
+	    portal.setJumpEventTriggered(false);
+	}
+
         PortalManager.getInstance().save();
 
         return new CommandResponse("&aTrigger set.");

@@ -11,7 +11,6 @@ import org.cubeville.commons.commands.CommandExecutionException;
 import org.cubeville.commons.commands.CommandResponse;
 
 import org.cubeville.portal.Portal;
-import org.cubeville.portal.PortalManager;
 
 public class PortalInfo extends Command
 {

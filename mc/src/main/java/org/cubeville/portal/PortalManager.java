@@ -18,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
@@ -29,6 +30,7 @@ public class PortalManager implements Listener, DynamicallyEnumeratedObjectSourc
 
     private List<Portal> portals;
     private List<Portal> moveEventPortals;
+    private List<Portal> jumpEventPortals;
     
     private static PortalManager instance;
     private Map<UUID, Portal> respawnPortals;
@@ -43,7 +45,7 @@ public class PortalManager implements Listener, DynamicallyEnumeratedObjectSourc
         if(portals == null) {
             portals = new ArrayList<>();
         }
-        updateMoveEventPortalList();
+        updateTriggerEventPortalList();
         respawnPortals = new HashMap<>();
         ignoredPlayers = new HashSet<>();
     }
@@ -101,14 +103,19 @@ public class PortalManager implements Listener, DynamicallyEnumeratedObjectSourc
     public void save() {
         plugin.getConfig().set("Portals", portals);
         plugin.saveConfig();
-        updateMoveEventPortalList();
+        updateTriggerEventPortalList();
     }
 
-    private void updateMoveEventPortalList() {
+    private void updateTriggerEventPortalList() {
         moveEventPortals = new ArrayList<>();
         for(Portal portal: portals) {
             if(portal.isMoveEventTriggered()) moveEventPortals.add(portal);
         }
+
+	jumpEventPortals = new ArrayList<>();
+	for(Portal portal: portals) {
+	    if(portal.isJumpEventTriggered()) jumpEventPortals.add(portal);
+	}
     }
     
     public void addPortal(Portal portal) {
@@ -209,6 +216,18 @@ public class PortalManager implements Listener, DynamicallyEnumeratedObjectSourc
         for(Portal portal: moveEventPortals) {
             portal.moveEventTrigger(event.getPlayer());
         }
+    }
+
+    @EventHandler
+    public void onPlayerJump(PlayerJumpEvent event) {
+	Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+		@Override
+		public void run() {
+		    for(Portal portal: jumpEventPortals) {
+			portal.jumpEventTrigger(event.getPlayer());
+		    }		    
+		}
+	    }, 1L);
     }
     
     public boolean containsObject(String value) {

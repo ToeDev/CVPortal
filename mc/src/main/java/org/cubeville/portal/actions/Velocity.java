@@ -47,7 +47,7 @@ public class Velocity implements Action
         }
         else {
             Vector pl = player.getLocation().getDirection();
-            Vector vel = new Vector(pl.getX() * velocity.getX(), 0, pl.getZ() * velocity.getX());
+            Vector vel = new Vector(pl.getX() * velocity.getX(), velocity.getY(), pl.getZ() * velocity.getX());
             player.setVelocity(vel);
         }
     }

@@ -1,7 +1,9 @@
 package org.cubeville.portal;
 
-import org.betonquest.betonquest.BetonQuest;
-import org.betonquest.betonquest.id.ConditionID;
+import pl.betoncraft.betonquest.BetonQuest;
+import pl.betoncraft.betonquest.ConditionID;
+//import org.betonquest.betonquest.BetonQuest;
+//import org.betonquest.betonquest.id.ConditionID;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
