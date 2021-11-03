@@ -129,7 +129,7 @@ public class WarpCommand extends Command
 			    TextComponent w = new TextComponent(warp);
 			    w.setColor(warpPrefixColours.get(prefixNumber));
 			    w.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warp " + warp));
-			    w.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to warp to " + ChatColor.YELLOW + warp).create()));
+			    w.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to warp to " + warpPrefixColours.get(prefixNumber) + warp).create()));
 			    out.addExtra(w);
 			}
 			commandSender.sendMessage(out);
