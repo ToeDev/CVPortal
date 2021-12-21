@@ -13,15 +13,17 @@ public class Velocity implements Action
 {
     boolean adjustToPlayerDirection;
     Vector velocity;
-
+    boolean ignoreY;
+    
     public Velocity(Vector velocity) {
         this.velocity = velocity;
         adjustToPlayerDirection = false;
     }
 
-    public Velocity(Vector velocity, boolean adjustToPlayerDirection) {
+    public Velocity(Vector velocity, boolean adjustToPlayerDirection, boolean ignoreY) {
         this.velocity = velocity;
         this.adjustToPlayerDirection = adjustToPlayerDirection;
+	this.ignoreY = ignoreY;
     }
     
     public Velocity(Map<String, Object> config) {
@@ -32,22 +34,32 @@ public class Velocity implements Action
         else {
             adjustToPlayerDirection = false;
         }
+	if(config.get("ignoreY") != null) {
+	    ignoreY = (Boolean) config.get("ignoreY");
+	}
+	else {
+	    ignoreY = false;
+	}
     }
 
     public Map<String, Object> serialize() {
         Map<String, Object> ret = new HashMap<>();
         ret.put("velocity", velocity);
         ret.put("adjustToPlayerDirection", adjustToPlayerDirection);
+	ret.put("ignoreY", ignoreY);
         return ret;
     }
 
     public void execute(Player player) {
         if(!adjustToPlayerDirection) {
-            player.setVelocity(velocity);
+	    Vector newVelocity = velocity;
+	    if(ignoreY) newVelocity.setY(player.getVelocity().getY());
+            player.setVelocity(newVelocity);
         }
         else {
             Vector pl = player.getLocation().getDirection();
             Vector vel = new Vector(pl.getX() * velocity.getX(), velocity.getY(), pl.getZ() * velocity.getX());
+	    if(ignoreY) vel.setY(player.getVelocity().getY());
             player.setVelocity(vel);
         }
     }

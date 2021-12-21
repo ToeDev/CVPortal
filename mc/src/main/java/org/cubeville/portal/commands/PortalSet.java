@@ -16,6 +16,7 @@ import org.cubeville.portal.Portal;
 import org.cubeville.portal.PortalManager;
 import org.cubeville.portal.actions.Action;
 import org.cubeville.portal.actions.ClearInventory;
+import org.cubeville.portal.actions.Extinguish;
 import org.cubeville.portal.actions.Heal;
 import org.cubeville.portal.actions.RemoveEffects;
 
@@ -27,6 +28,7 @@ public class PortalSet extends Command
         pars.add("clearinventory");
         pars.add("removeeffects");
         pars.add("heal");
+	pars.add("extinguish");
         addBaseParameter(new CommandParameterEnumeratedString(pars));
         addBaseParameter(new CommandParameterPortal());
     }
@@ -47,6 +49,9 @@ public class PortalSet extends Command
         else if(actionPar.equals("heal")) {
             action = new Heal();
         }
+	else if(actionPar.equals("extinguish")) {
+	    action = new Extinguish();
+	}
         else {
             throw new CommandExecutionException("Unknown action " + actionPar);
         }

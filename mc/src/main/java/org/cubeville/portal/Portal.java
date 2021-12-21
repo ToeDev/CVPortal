@@ -41,6 +41,8 @@ public class Portal implements ConfigurationSerializable
     private Particle particle;
     private int particleDelay;
 
+    private boolean disabled = false;
+    
     private int particleDelayCounter;
     
     private Map<UUID, Long> cooldownTimer = new HashMap<>();
@@ -149,9 +151,7 @@ public class Portal implements ConfigurationSerializable
     }
 
     public void cyclicTrigger(Collection<Player> players) {
-        if(permanent == true && moveEventTriggered == false && jumpEventTriggered == false) trigger(players);
-        if(minCorner != null && maxCorner != null && particle != null) {
-        }
+        if(permanent == true && moveEventTriggered == false && jumpEventTriggered == false && disabled == false) trigger(players);
     }
 
     public void particleTrigger() {
@@ -169,12 +169,12 @@ public class Portal implements ConfigurationSerializable
     }
     
     public void moveEventTrigger(Player player) {
-        if(permanent == false || moveEventTriggered == false) return;
+	if(permanent == false || moveEventTriggered == false || disabled == true) return;
         trigger(player);
     }
 
     public void jumpEventTrigger(Player player) {
-	if(permanent == false || jumpEventTriggered == false) return;
+	if(permanent == false || jumpEventTriggered == false || disabled == true) return;
 	trigger(player);
     }
     
@@ -196,7 +196,7 @@ public class Portal implements ConfigurationSerializable
 	}
     }
 
-    private boolean conditionIsTrue(Player player) {
+    public boolean conditionIsTrue(Player player) {
         if(condition == null || condition.equals("")) return true;
         if(condition.startsWith("!")) {
             return !CVPortal.getInstance().conditionIsTrue(player, condition.substring(1));
@@ -553,4 +553,13 @@ public class Portal implements ConfigurationSerializable
         this.particle = particle;
         this.particleDelay = particleDelay;
     }
+
+    public boolean isDisabled() {
+	return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+	this.disabled = disabled;
+    }
 }
+

@@ -22,6 +22,8 @@ public class PortalCreate extends Command
         super("create");
         addBaseParameter(new CommandParameterString());
         addFlag("fullheight");
+	addFlag("tolerant");
+	addFlag("reduced");
     }
 
     public CommandResponse execute(Player player, Set<String> flags, Map<String, Object> parameters, List<Object> baseParameters)
@@ -45,7 +47,17 @@ public class PortalCreate extends Command
         catch(IllegalArgumentException e) {
             noreg = true;
         }
-        
+
+        if(flags.contains("tolerant")) {
+            min = min.add(new Vector(-0.2, -0.2, -0.2));
+            max = max.add(new Vector(0.2, 0.3, 0.2));
+        }
+	
+	if(flags.contains("reduced")) {
+	    min = min.add(new Vector(0.35, 0, 0.35));
+	    max = max.add(new Vector(-0.35, 0, -0.35));
+	}
+	
         Portal portal = new Portal(name, player.getLocation().getWorld(), min, max);
         portalManager.addPortal(portal);
 

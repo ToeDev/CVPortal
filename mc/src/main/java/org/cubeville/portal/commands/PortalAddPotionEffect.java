@@ -25,6 +25,7 @@ public class PortalAddPotionEffect extends Command
         addBaseParameter(new CommandParameterPotionEffectType());
         addBaseParameter(new CommandParameterInteger());
         addBaseParameter(new CommandParameterInteger());
+	addFlag("noparticles");
     }
 
     public CommandResponse execute(Player player, Set<String> flags, Map<String, Object> parameters, List<Object> baseParameters)
@@ -34,8 +35,8 @@ public class PortalAddPotionEffect extends Command
         PotionEffectType type = (PotionEffectType) baseParameters.get(1);
         int amplifier = (Integer) baseParameters.get(2);
         int duration = (Integer) baseParameters.get(3);
-
-        portal.addAction(new ApplyPotionEffect(type, duration, amplifier));
+	boolean particles = !flags.contains("noparticles");
+        portal.addAction(new ApplyPotionEffect(type, duration, amplifier, particles));
         PortalManager.getInstance().save();
 
         return new CommandResponse("&aEffect added.");

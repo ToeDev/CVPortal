@@ -1,9 +1,9 @@
 package org.cubeville.portal;
 
-import pl.betoncraft.betonquest.BetonQuest;
-import pl.betoncraft.betonquest.ConditionID;
-//import org.betonquest.betonquest.BetonQuest;
-//import org.betonquest.betonquest.id.ConditionID;
+//import pl.betoncraft.betonquest.BetonQuest;
+//import pl.betoncraft.betonquest.ConditionID;
+import org.betonquest.betonquest.BetonQuest;
+import org.betonquest.betonquest.id.ConditionID;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -47,6 +47,7 @@ public class CVPortal extends JavaPlugin {
         ConfigurationSerialization.registerClass(ClearInventory.class);
         ConfigurationSerialization.registerClass(Cmd.class);
         ConfigurationSerialization.registerClass(CrossServerTeleport.class);
+        ConfigurationSerialization.registerClass(Extinguish.class);
         ConfigurationSerialization.registerClass(Heal.class);
         ConfigurationSerialization.registerClass(Message.class);
         ConfigurationSerialization.registerClass(Playsound.class);
@@ -80,6 +81,7 @@ public class CVPortal extends JavaPlugin {
         commandParser.addCommand(new PortalAddPotionEffect());
         commandParser.addCommand(new PortalCreate());
         commandParser.addCommand(new PortalDelete());
+	commandParser.addCommand(new PortalDisable());
         commandParser.addCommand(new PortalFind());
         commandParser.addCommand(new PortalInfo());
         commandParser.addCommand(new PortalList());
@@ -115,9 +117,10 @@ public class CVPortal extends JavaPlugin {
         commandParser.addCommand(new PortalRemoveAction("remove clearinventory", "ClearInventory"));
         commandParser.addCommand(new PortalRemoveAction("remove command", "Cmd"));
         commandParser.addCommand(new PortalRemoveAction("remove crossserver teleport", "CrossServerTeleport"));
+        commandParser.addCommand(new PortalRemoveAction("remove extinguish", "Extinguish"));
         commandParser.addCommand(new PortalRemoveAction("remove heal", "Heal"));
         commandParser.addCommand(new PortalRemoveAction("remove message", "Message"));
-        commandParser.addCommand(new PortalRemoveAction("remove potioneffect", "PotionEffect"));
+        commandParser.addCommand(new PortalRemoveAction("remove potioneffect", "ApplyPotionEffect"));
         commandParser.addCommand(new PortalRemoveAction("remove removeeffects", "RemoveEffects"));
         commandParser.addCommand(new PortalRemoveAction("remove sound", "Playsound"));
         commandParser.addCommand(new PortalRemoveAction("remove sucommand", "SuCmd"));
