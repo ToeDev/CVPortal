@@ -1,7 +1,5 @@
 package org.cubeville.portal;
 
-//import pl.betoncraft.betonquest.BetonQuest;
-//import pl.betoncraft.betonquest.ConditionID;
 import org.betonquest.betonquest.BetonQuest;
 import org.betonquest.betonquest.id.ConditionID;
 import org.bukkit.command.Command;
@@ -10,7 +8,6 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 
 import org.cubeville.commons.commands.CommandParser;
 

@@ -274,7 +274,6 @@ public class Portal implements ConfigurationSerializable
             actionList += action.getShortInfo();
             action.execute(player);
         }
-        System.out.println("Portal " + name + " triggered for player " + player.getName() + " (" + actionList + ")");
     }
 
     public void executeActionsWithConditionCheck(Player player) {
