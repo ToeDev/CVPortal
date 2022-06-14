@@ -16,6 +16,9 @@ import org.cubeville.cvipc.CVIPC;
 import org.cubeville.portal.actions.*;
 import org.cubeville.portal.commands.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CVPortal extends JavaPlugin {
 
     private PortalManager portalManager;
@@ -157,6 +160,20 @@ public class CVPortal extends JavaPlugin {
             return setwarpCommandParser.execute(sender, args);
         }
         return false;
+    }
+
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        List<String> completions = commandParser.getCompletions(sender, args);
+        if(completions == null) {
+            List<String> portalCompletions = new ArrayList<>();
+            for(Portal portal : PortalManager.getInstance().getPortals()) {
+                if(((Player) sender).getWorld().getUID().equals(portal.getWorld())) {
+                    portalCompletions.add(portal.getName());
+                }
+            }
+            return portalCompletions;
+        }
+        return completions;
     }
 
     public boolean conditionIsTrue(Player player, String condition) {
